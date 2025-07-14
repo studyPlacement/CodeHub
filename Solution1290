@@ -1,0 +1,45 @@
+class Solution {
+    public int getDecimalValue(ListNode head) {
+        ListNode temp = head; int size = 0;;
+        while(temp != null){
+            size++;
+            temp = temp.next;
+        }
+        size = size-1; temp = head;
+        int binaryNumber = 0;
+        while(temp != null && size >= 0){
+            binaryNumber += Math.pow(2, size) * temp.val;
+            temp = temp.next; size--;
+        }
+        return binaryNumber;
+    }
+}
+
+C++ Code----------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    int getDecimalValue(ListNode* head) {
+        ListNode* temp = head;
+        int size = 0;
+        
+        // Step 1: Find size of the linked list
+        while (temp != nullptr) {
+            size++;
+            temp = temp->next;
+        }
+        
+        size = size - 1;
+        temp = head;
+        int binaryNumber = 0;
+        
+        // Step 2: Calculate decimal value
+        while (temp != nullptr && size >= 0) {
+            binaryNumber += pow(2, size) * temp->val;
+            temp = temp->next;
+            size--;
+        }
+        
+        return binaryNumber;
+    }
+};
