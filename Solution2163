@@ -36,13 +36,13 @@ class Solution {
             }
         }
 
-        long res = Long.MAX_VALUE;
+        long ans = Long.MAX_VALUE;
         for (int i = n - 1; i < 2 * n; i++) {
             if (right[i + 1] != Long.MIN_VALUE) {
-                res = Math.min(res, left[i] - right[i + 1]);
+                ans = Math.min(ans, left[i] - right[i + 1]);
             }
         }
-        return res;
+        return ans;
     }
 }
 
@@ -93,13 +93,13 @@ public:
         }
 
         // Calculate minimum difference
-        long long res = LLONG_MAX;
+        long long ans = LLONG_MAX;
         for (int i = n - 1; i < 2 * n; ++i) {
             if (right[i + 1] != LLONG_MIN) {
-                res = min(res, left[i] - right[i + 1]);
+                ans = min(ans, left[i] - right[i + 1]);
             }
         }
 
-        return res;
+        return ans;
     }
 };
