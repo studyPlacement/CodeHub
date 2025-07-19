@@ -1,0 +1,32 @@
+class Solution {
+    public List<String> removeSubfolders(String[] folder) {
+        Arrays.sort(folder);
+        List<String> result = new ArrayList<>();
+        
+        for (String s : folder) {
+            if (result.isEmpty() || !s.startsWith(result.get(result.size() - 1) + "/")) {
+                result.add(s);
+            }
+        }
+        
+        return result;
+    }
+}
+
+C++ Code---------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    vector<string> removeSubfolders(vector<string>& folder) {
+        sort(folder.begin(), folder.end());
+        vector<string> result;
+
+        for (const string& s : folder) {
+            if (result.empty() || s.find(result.back() + "/") != 0) {
+                result.push_back(s);
+            }
+        }
+
+        return result;
+    }
+};
