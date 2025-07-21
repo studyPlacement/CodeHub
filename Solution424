@@ -1,0 +1,50 @@
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int max = Integer.MIN_VALUE;
+        int j = 0;
+        int maxfreq = 0;
+        HashMap <Character, Integer> map = new HashMap<>();
+        int i=0;
+        while(j<s.length()){
+            map.put(s.charAt(j), map.getOrDefault(s.charAt(j),0)+1);
+            maxfreq = Math.max(maxfreq, map.get(s.charAt(j)));
+
+            while((j-i+1) - maxfreq > k){
+                char left = s.charAt(i);
+                map.put(left, map.get(left)-1);
+                i++;
+            }
+            max = Math.max(max, j-i+1);
+            j++;
+        }
+        return max==Integer.MIN_VALUE ? 0 : max;
+    }
+}
+
+C++ Code-----------------------------------------------------------------------------------------------------------------------
+
+
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int maxLen = 0;
+        int maxFreq = 0;
+        int i = 0;
+        unordered_map<char, int> count;
+
+        for (int j = 0; j < s.length(); j++) {
+            count[s[j]]++;
+            maxFreq = max(maxFreq, count[s[j]]);
+
+            // If window size minus maxFreq exceeds k, shrink from the left
+            while ((j - i + 1) - maxFreq > k) {
+                count[s[i]]--;
+                i++;
+            }
+
+            maxLen = max(maxLen, j - i + 1);
+        }
+
+        return maxLen;
+    }
+};
