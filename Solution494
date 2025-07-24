@@ -1,0 +1,82 @@
+class Solution {
+    Integer[][] dp;
+
+    public int findTargetSumWays(int[] nums, int target) {
+        int sum = 0;
+
+        for (int num : nums) {
+            sum += num;
+        }
+
+        if ((target + sum) % 2 != 0 || Math.abs(target) > sum) {
+            return 0; 
+        }
+
+        int subsetSum = (target + sum) / 2;
+
+        dp = new Integer[nums.length][subsetSum + 1];
+
+        return countSubsets(nums, 0, subsetSum);
+    }
+
+    private int countSubsets(int[] nums, int index, int sum) {
+        if(sum < 0){
+            return 0;
+        }
+        if (index == nums.length) {
+            return sum == 0 ? 1 : 0;
+        }
+
+        if (dp[index][sum] != null) {
+            return dp[index][sum];
+        }
+
+        int exclude = countSubsets(nums, index + 1, sum);
+
+        int include = countSubsets(nums, index + 1, sum - nums[index]);
+        
+        return dp[index][sum] = include + exclude;
+    }
+}
+
+
+C++ Code ---------------------------------------------------------------------------------------------------------------------
+
+class Solution {
+    vector<vector<int>> dp;
+
+public:
+    int findTargetSumWays(vector<int>& nums, int target) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+
+        if ((target + sum) % 2 != 0 || abs(target) > sum) {
+            return 0;
+        }
+
+        int subsetSum = (target + sum) / 2;
+        dp = vector<vector<int>>(nums.size(), vector<int>(subsetSum + 1, -1));
+
+        return countSubsets(nums, 0, subsetSum);
+    }
+
+private:
+    int countSubsets(vector<int>& nums, int index, int sum) {
+        if (sum < 0) return 0;
+        if (index == nums.size()) {
+            return sum == 0 ? 1 : 0;
+        }
+
+        if (dp[index][sum] != -1) {
+            return dp[index][sum];
+        }
+
+        int exclude = countSubsets(nums, index + 1, sum);
+        int include = countSubsets(nums, index + 1, sum - nums[index]);
+
+        return dp[index][sum] = include + exclude;
+    }
+};
+
