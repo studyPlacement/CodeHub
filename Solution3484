@@ -1,0 +1,36 @@
+class Spreadsheet {
+    int sheet[][];
+    public Spreadsheet(int rows) {
+        sheet = new int[rows][26];
+    }
+    
+    public void setCell(String cell, int value) {
+        char ch = cell.charAt(0);
+        int row = Integer.parseInt(cell.substring(1));
+        sheet[row-1][ch-'A'] = value;
+    }
+    
+    public void resetCell(String cell) {
+        char ch = cell.charAt(0);
+        int row = Integer.parseInt(cell.substring(1));
+        sheet[row-1][ch-'A'] = 0;
+    }
+    
+    public int getValue(String formula) {
+        String s = formula.substring(1);
+        String arr[] = s.split("\\+"); 
+        int sum = 0;
+
+        for (String term : arr) {
+            if (Character.isAlphabetic(term.charAt(0))) {
+                char ch = term.charAt(0);
+                int row = Integer.parseInt(term.substring(1));
+                sum += sheet[row - 1][ch - 'A'];
+            } else {
+                sum += Integer.parseInt(term);
+            }
+        }
+        return sum;
+
+    }
+}
