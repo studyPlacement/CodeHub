@@ -1,0 +1,91 @@
+Brute Force 1---------------------------------------------------------------------------------------------------------------
+
+class Solution {
+    public int triangleNumber(int[] nums) {
+        int cnt = 0;
+        for(int i=0; i<nums.length-2; i++){
+            for(int j=i+1; j<nums.length-1; j++){
+                for(int k = j+1; k<nums.length; k++){
+                    if((nums[i] + nums[j] > nums[k]) && (nums[i] + nums[k] > nums[j]) && (nums[j] + nums[k] > nums[i])){
+                        cnt++;
+                    }
+                }
+            }
+        }
+        return cnt;
+    }
+}
+
+Brute force 2---------------------------------------------------------------------------------------------------------------
+class Solution {
+    public int triangleNumber(int[] nums) {
+        List<List<Integer>> list = new ArrayList<>();
+        solve(nums, list, 0, new ArrayList<>()); int cnt = 0;
+        for(List<Integer> l : list){
+            Collections.sort(l);
+            if(l.get(0) + l.get(1) > l.get(2)){
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+    public void solve(int nums[], List<List<Integer>> list, int idx, List<Integer> current){
+        if(idx >= nums.length){
+            if(current.size() == 3){
+                list.add(new ArrayList<>(current));
+            }
+            return;
+        }
+        current.add(nums[idx]);
+        solve(nums, list, idx+1, current);
+        current.remove(current.size() - 1);
+        solve(nums, list, idx+1, current);
+    }
+}
+
+Optimized Approach----------------------------------------------------------------------------------------------------------------
+
+class Solution {
+    public int triangleNumber(int[] nums) {
+        Arrays.sort(nums); int n = nums.length; int cnt = 0;
+        int i=0; int j=1; int k=nums.length-1;
+        while(k > 1){
+            i=0;
+            while(i < k-1){
+                j=i+1;
+                while(j <k){
+                    int sum = nums[i] + nums[j];
+                    if(sum > nums[k]){
+                        cnt += k-j;
+                        break;
+                    }
+                    j++;
+                }
+                i++;
+            }
+            k--;
+        }
+        return cnt;
+    }
+}
+Optimal Approach------------------------------------------------------------------------------------------------
+
+class Solution {
+    public int triangleNumber(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length, cnt = 0;
+
+        for (int k=n-1; k>=2; k--) {
+            int i=0, j=k-1;
+            while (i < j) {
+                if (nums[i] + nums[j] > nums[k]) {
+                    cnt += (j - i);
+                    j--;
+                } else {
+                    i++;
+                }
+            }
+        }
+        return cnt;
+    }
+}
