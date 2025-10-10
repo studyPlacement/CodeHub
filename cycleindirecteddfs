@@ -1,0 +1,42 @@
+class Solution {
+    public boolean isCyclic(int V, int[][] edges) {
+        // code here
+        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
+        for(int i=0; i<V; i++){
+            list.add(new ArrayList<>());
+        }
+        for(int edge[]: edges){
+            int u = edge[0]; int v = edge[1];
+            list.get(u).add(v);
+        }
+        boolean vis[] = new boolean[V];
+        boolean currentRec[] = new boolean[V];
+        
+        for(int i=0; i<V; i++){
+            if(!vis[i]){
+                if(dfs(list, i, vis, currentRec)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public boolean dfs(ArrayList<ArrayList<Integer>> list, int curr, boolean vis[], boolean currentRec[]){
+        vis[curr] = true;
+        currentRec[curr] = true;
+        
+        for(int neighbour: list.get(curr)){
+            if(!vis[neighbour]){
+                if(dfs(list, neighbour, vis, currentRec)){
+                    return true;
+                }
+            } else {
+                if(currentRec[neighbour]){
+                    return true;
+                }
+            }
+        }
+        currentRec[curr] = false;
+        return false;
+    }
+}
