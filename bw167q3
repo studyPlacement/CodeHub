@@ -1,0 +1,52 @@
+class ExamTracker {
+    List<int[]> list;
+    List<Long> prefix;
+    public ExamTracker() {
+        list = new ArrayList<>();
+        prefix = new ArrayList<>();
+    }
+    
+    public void record(int time, int score) {
+        list.add(new int[]{time, score});
+        if(!prefix.isEmpty()){
+            prefix.add(prefix.get(prefix.size()-1) + score);
+        } else {
+            prefix.add((long)score);
+        }
+    }
+    
+    public long totalScore(int startTime, int endTime) {
+        int idx1 = leftBinary(startTime);
+        int idx2 = rightBinary(endTime);
+        if(idx1 == list.size() || idx2 == -1) return 0;
+        long left = (idx1 == 0) ? 0l : prefix.get(idx1-1);
+        long right = prefix.get(idx2);
+        return right - left;
+    }
+    public int leftBinary(int target){
+        int i=0; int j=list.size()-1; int ans = list.size();
+        while(i<=j){
+            int mid = (i+j)/2;
+            if(list.get(mid)[0] >= target){
+                ans = mid;
+                j = mid-1;
+            } else {
+                i = mid+1;
+            }
+        }
+        return ans;
+    }
+    public int rightBinary(int target){
+        int i=0; int j=list.size()-1; int ans = -1;
+        while(i<=j){
+            int mid = (i+j)/2;
+            if(list.get(mid)[0] > target){
+                j = mid-1;
+            } else {
+                ans = mid;
+                i = mid+1;
+            }
+        }
+        return ans;
+    }
+}
