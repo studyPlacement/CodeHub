@@ -1,0 +1,41 @@
+class Solution {
+    public int longestBalanced(String s) {
+        int n = s.length();
+        int prefix[][] = new int[n+1][26];
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<26; j++){
+                prefix[i+1][j] = prefix[i][j];
+            }
+            prefix[i+1][s.charAt(i) - 'a']++;
+        }
+        int max = 0;
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<=n; j++){
+                int freq[] = new int[26];
+                for(int k=0; k<26; k++){
+                    freq[k] = prefix[j][k] - prefix[i][k];
+                }
+                if(check(freq)){
+                    max = Math.max(max, j-i);
+                }
+            }
+        }
+        return max;
+    }
+    public boolean check(int nums[]){
+        int x = 0;
+        for(int i=0; i<26; i++){
+            if(nums[i] != 0){
+                if(x == 0){
+                    x = nums[i];
+                } else {
+                    if(x != nums[i]){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+}
