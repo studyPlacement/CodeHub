@@ -1,0 +1,54 @@
+Brute Force Solution-----------------------------------------------------
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null || k == 0) return head;
+        int size = 0;
+        ListNode temp = head;
+        while(temp != null){
+            size++;
+            temp = temp.next;
+        }
+        k = k % size;
+        if(k == 0) return head;
+        while(k-- > 0){
+            temp = head;
+            while(temp.next.next != null){
+                temp = temp.next;
+            }
+            ListNode temp2 = temp.next;
+            temp.next = null;
+            temp2.next = head;
+            head = temp2;
+        }
+        return head;
+    }
+}
+
+Optimal Solution---------------------------------------------------------------------------
+
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null || k == 0) return head;
+        int size = 0;
+        ListNode temp = head;
+        while(temp != null){
+            size++;
+            temp = temp.next;
+        }
+        k = k % size;
+        if(k == 0) return head;
+        int diff = size - k;
+        ListNode slow = head; ListNode fast = head;
+        while(k-- > 0){
+            fast = fast.next;
+        }
+        while(slow.next != null && fast.next != null){
+            slow = slow.next; fast = fast.next;
+        }
+        temp = slow.next;
+        slow.next = null;
+        fast.next = head;
+        return temp;
+    }
+}
