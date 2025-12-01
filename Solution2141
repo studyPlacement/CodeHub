@@ -1,0 +1,33 @@
+class Solution {
+    public long maxRunTime(int n, int[] batteries) {
+        Arrays.sort(batteries);
+        int m = batteries.length;
+        int start = m - n;
+
+        long[] base = new long[n];
+        for (int i = 0; i < n; i++) base[i] = batteries[start + i];
+
+        long extra = 0;
+        for (int i = 0; i < start; i++) extra += batteries[i];
+
+        long ans = base[0];
+        int i = 0;
+
+        while (i + 1 < n && extra > 0) {
+            long d = base[i + 1] - base[i];
+            long need = d * (i + 1);
+
+            if (extra < need) {
+                ans += extra / (i + 1);
+                return ans;
+            }
+
+            ans += d;
+            extra -= need;
+            i++;
+        }
+
+        ans += extra / n;
+        return ans;
+    }
+}
